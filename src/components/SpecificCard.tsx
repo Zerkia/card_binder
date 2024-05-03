@@ -46,6 +46,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
     // Handle form submission
   };
 
+
   return (
     <>
       {/* IMAGE */}
@@ -66,16 +67,19 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             <label htmlFor="cardSets" className="block mt-4 mx-auto font-bold">Card Set:</label>
             <select
               id="cardSets"
-              className="block w-40 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-44 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              {card.card_sets.map((cardSet) => (
-                <option
-                  key={cardSet.set_code}
-                  value={cardSet.set_code}
-                >
-                  {cardSet.set_code.split("-")[0]}
-                </option>
-              ))}
+              {card.card_sets.map((cardSet) => {
+                const euroPrice = (parseFloat(cardSet.set_price) * 0.928728).toFixed(2);
+                return (
+                  <option
+                    key={cardSet.set_code}
+                    value={cardSet.set_code}
+                  >
+                    {cardSet.set_code.split("-")[0]} {cardSet.set_rarity_code} - €{euroPrice}
+                  </option>
+                );
+              })}
             </select>
 
             {/* QUANTITY */}
@@ -86,7 +90,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
               name="quantity"
               value={quantity}
               onChange={handleQuantityChange}
-              className="block w-40 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-44 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Quantity"
             />
 
@@ -97,7 +101,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
               name="condition"
               value={condition}
               onChange={handleConditionChange}
-              className="block w-40 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-44 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="mint">Mint</option>
               <option value="near mint">Near Mint</option>
@@ -115,7 +119,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
               name="language"
               value={language}
               onChange={handleLanguageChange}
-              className="block w-40 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-44 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="english">English</option>
               <option value="french">French</option>
@@ -137,13 +141,13 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             />
 
             {/* PERSONAL NOTES */}
-            <label htmlFor="notes" className="block mt-4 mx-auto font-bold">Notes:</label>
+            <label htmlFor="notes" className="block mt-3 mx-auto font-bold">Notes:</label>
             <textarea
               id="notes"
               name="notes"
               value={notes}
               onChange={handleNotesChange}
-              className="block w-52 h-12 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-52 h-12 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 py-3.5 pl-3 mt-1 resize-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Notes"
             />
 
