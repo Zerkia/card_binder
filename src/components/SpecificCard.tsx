@@ -63,7 +63,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
           {/* FORM */}
           <form onSubmit={handleSubmit}>
             {/* CARD SET */}
-            <label htmlFor="cardSets" className="block mt-4 mx-auto">Card Set:</label>
+            <label htmlFor="cardSets" className="block mt-4 mx-auto font-bold">Card Set:</label>
             <select
               id="cardSets"
               className="block w-40 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -79,7 +79,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             </select>
 
             {/* QUANTITY */}
-            <label htmlFor="quantity" className="block mt-4 mx-auto">Quantity:</label>
+            <label htmlFor="quantity" className="block mt-4 mx-auto font-bold">Quantity:</label>
             <input
               type="number"
               id="quantity"
@@ -91,7 +91,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             />
 
             {/* CARD CONDITION */}
-            <label htmlFor="condition" className="block mt-4 mx-auto">Condition:</label>
+            <label htmlFor="condition" className="block mt-4 mx-auto font-bold">Condition:</label>
             <select
               id="condition"
               name="condition"
@@ -109,7 +109,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             </select>
 
             {/* LANGUAGE */}
-            <label htmlFor="language" className="block mt-4 mx-auto">Language:</label>
+            <label htmlFor="language" className="block mt-4 mx-auto font-bold">Language:</label>
             <select
               id="language"
               name="language"
@@ -126,7 +126,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             </select>
 
             {/* FIRST EDITION ? */}
-            <label htmlFor="firstEdition" className="block mt-4 mx-auto">First Edition?</label>
+            <label htmlFor="firstEdition" className="block mt-4 mx-auto font-bold">First Edition?</label>
             <input
                 type="checkbox"
                 id="firstEdition"
@@ -137,7 +137,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             />
 
             {/* PERSONAL NOTES */}
-            <label htmlFor="notes" className="block mt-4 mx-auto">Notes:</label>
+            <label htmlFor="notes" className="block mt-4 mx-auto font-bold">Notes:</label>
             <textarea
               id="notes"
               name="notes"

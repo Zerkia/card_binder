@@ -28,13 +28,13 @@ export default function CardsProvider({children}: {children: ReactNode}) {
         threshold: 0.2
     })
 
-    const cardResult = fuse.search(input, {
+    const cardResult = input ? fuse.search(input, {
         limit: 100
     }).map((card) => {
         return {
             ...card.item
         }
-    })
+    }) : cards
 
     function updateInput(value: string){
         setInput(value)
