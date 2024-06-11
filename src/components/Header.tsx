@@ -9,16 +9,18 @@ export default function Header() {
         <nav className="flex justify-between items-center pb-10">
             <div className="w-1/3"></div>
             <div className="w-1/3 flex justify-center items-center">
-            <ContentLoader 
-                speed={2}
-                width={80}
-                height={80}
-                viewBox="0 0 100 100"
-                backgroundColor="#f3f3f3"
-                foregroundColor="#ecebeb"
-            >
-                <rect x="0" y="0" rx="5" ry="5" width="100" height="100" />
-            </ContentLoader>
+            <Link href={`/`}>
+                <ContentLoader 
+                    speed={2}
+                    width={80}
+                    height={80}
+                    viewBox="0 0 100 100"
+                    backgroundColor="#f3f3f3"
+                    foregroundColor="#ecebeb"
+                >
+                    <rect x="0" y="0" rx="5" ry="5" width="100" height="100" />
+                </ContentLoader>
+            </Link>
             </div>
             {/* Changes to "Binder / Collection" if user is logged in */}
             
