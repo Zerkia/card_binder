@@ -55,8 +55,8 @@ export default function SpecificCard({ id }: SpecificCardProps) {
           <Image
             src={card.card_images[0].image_url}
             alt={card.name}
-            width={400}
-            height={400}
+            width={255}
+            height={255}
             layout="fixed"
             className="block mx-auto mb-4"
           />
