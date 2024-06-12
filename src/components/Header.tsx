@@ -17,6 +17,7 @@ export default function Header() {
                     viewBox="0 0 100 100"
                     backgroundColor="#f3f3f3"
                     foregroundColor="#ecebeb"
+                    uniqueKey='logo'
                 >
                     <rect x="0" y="0" rx="5" ry="5" width="100" height="100" />
                 </ContentLoader>
