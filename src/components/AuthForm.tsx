@@ -8,7 +8,7 @@ interface AuthFormProps {
 }
 
 interface AuthFormInputs {
-  username: string;
+  email: string;
   password: string;
   confirmPassword?: string;
 }
@@ -25,16 +25,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ isSignup, onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md mx-auto">
-      <FormControl isInvalid={!!errors.username} className="mb-4">
-        <FormLabel htmlFor="username">Username</FormLabel>
+      <FormControl isInvalid={!!errors.email} className="mb-4">
+        <FormLabel htmlFor="email">Email</FormLabel>
         <Input
-          id="username"
+          id="email"
           type="text"
-          placeholder="Username"
-          {...register('username', { required: 'Username is required' })}
+          placeholder="Email"
+          {...register('email', { required: 'Email is required' })}
           className="w-full"
         />
-        <FormErrorMessage>{errors.username && errors.username.message}</FormErrorMessage>
+        <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
       </FormControl>
 
       <FormControl isInvalid={!!errors.password} className="mb-4">

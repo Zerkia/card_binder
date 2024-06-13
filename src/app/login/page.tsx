@@ -3,7 +3,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 import AuthForm from '@/components/AuthForm';
-import { useToast } from '@chakra-ui/react';
+import { Link, useToast } from '@chakra-ui/react';
 import { supabase } from '@/supabaseClient';
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -11,9 +11,9 @@ import Header from "@/components/Header";
 const LoginPage: NextPage = () => {
     const toast = useToast();
 
-    const handleLogin = async (data: { username: string; password: string }) => {
-        const { username, password } = data;
-        const { error } = await supabase.auth.signInWithPassword({ email: username, password });
+    const handleLogin = async (data: { email: string; password: string }) => {
+        const { email, password } = data;
+        const { error } = await supabase.auth.signInWithPassword({ email: email, password });
 
         if (error) {
             toast({
@@ -36,8 +36,9 @@ const LoginPage: NextPage = () => {
     return(
         <main className="flex min-h-screen flex-col px-12 pt-6">
             <Header />
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="min-h-screen items-center justify-center">
                 <AuthForm isSignup={false} onSubmit={handleLogin} />
+                <p className='text-center text-sm'>Don&apos;t have a user? <Link href={`/signup`}><span>Click here</span></Link> to create one</p>
             </div>
             <Footer />
         </main>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import "./globals.css";
+import { ChakraProvider } from "@chakra-ui/react";
 import CardsProvider from "@/context/CardsProvider";
+import theme from "./theme";
 
 const roboto = Roboto({
   weight: ["100", "400", "700"],
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <CardsProvider>
-          {children}
-        </CardsProvider>
+        <ChakraProvider theme={theme}>
+          <CardsProvider>
+            {children}
+          </CardsProvider>
+        </ChakraProvider>
       </body>
     </html>
   );
