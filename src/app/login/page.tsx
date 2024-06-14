@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from 'react';
 import { NextPage } from 'next';
@@ -13,7 +13,7 @@ const LoginPage: NextPage = () => {
 
     const handleLogin = async (data: { email: string; password: string }) => {
         const { email, password } = data;
-        const { error } = await supabase.auth.signInWithPassword({ email: email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
 
         if (error) {
             toast({
