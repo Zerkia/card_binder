@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import "./globals.css";
 import CardsProvider from "@/context/CardsProvider";
+import './globals.css';
+import { Providers } from "./Providers";
 
 const roboto = Roboto({
   weight: ["100", "400", "700"],
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <CardsProvider>
-          {children}
-        </CardsProvider>
+        <Providers>
+          <CardsProvider>
+            {children}
+          </CardsProvider>
+        </Providers>
       </body>
     </html>
   );

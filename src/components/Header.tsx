@@ -1,8 +1,6 @@
-'use client'
 
 import ContentLoader from 'react-content-loader';
 import Link from "next/link";
-
 
 export default function Header() {
     return (

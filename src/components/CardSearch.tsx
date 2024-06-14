@@ -1,5 +1,3 @@
-'use client'
-
 import { useCardsContext } from "@/context/CardsProvider"
 
 
