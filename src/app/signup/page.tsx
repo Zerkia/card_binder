@@ -32,7 +32,7 @@ const SignupPage: NextPage = () => {
   
       toast({
         title: "Signup successful.",
-        description: "Please check your email to confirm your account.",
+        description: "Please click the \"Login\" button in the top right to log in",
         status: "success",
         duration: 9000,
         isClosable: true,
