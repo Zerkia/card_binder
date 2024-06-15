@@ -1,7 +1,9 @@
 import useCard from "@/hooks/useCard";
 import Image from "next/image";
 import { Roboto } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/supabaseClient";
+import { useToast } from "@chakra-ui/react";
 
 interface SpecificCardProps {
   id: number;
@@ -14,12 +16,42 @@ const roboto = Roboto({
 });
 
 export default function SpecificCard({ id }: SpecificCardProps) {
+  const toast = useToast();
   const { card } = useCard(id);
+  const [cardSet, setCardSet] = useState<string | undefined>('');
   const [quantity, setQuantity] = useState(1);
   const [condition, setCondition] = useState("mint");
   const [language, setLanguage] = useState("english");
   const [firstEdition, setFirstEdition] = useState(false);
   const [notes, setNotes] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Error fetching session:', error);
+        return;
+      }
+      if (session?.user?.id) {
+        setUserId(session.user.id);
+      } else {
+        console.error('No user logged in');
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
+  useEffect(() => {
+    if (card && card?.card_sets?.length > 0) {
+      setCardSet(card.card_sets[0].set_code);
+    }
+  }, [card]);
+
+  const handleCardSet = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCardSet(e.target.value);
+  }
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuantity(parseInt(e.target.value));
@@ -41,9 +73,54 @@ export default function SpecificCard({ id }: SpecificCardProps) {
     setNotes(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
+
+    if (!userId) {
+      toast({
+        title: "User not logged in.",
+        description: "Please log in to add a card.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('cards')
+        .insert({
+          userid: userId,
+          cardid: id,
+          cardsets: cardSet,
+          quantity: quantity,
+          condition: condition,
+          language: language,
+          firstedition: firstEdition,
+          notes: notes
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      console.log('Card data saved:', data);
+      toast({
+          title: "Card added successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Login failed.",
+        description: error.message || 'Unknown Error',
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+    });
+    }
   };
 
 
@@ -68,7 +145,9 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             <select
               id="cardSets"
               className="block w-44 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={handleCardSet}
             >
+
               {card.card_sets.map((cardSet) => {
                 const euroPrice = (parseFloat(cardSet.set_price) * 0.928728).toFixed(2);
                 return (
