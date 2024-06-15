@@ -12,12 +12,12 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col px-12 pt-6">
-        <ChakraProvider theme={theme}>
+      <ChakraProvider theme={theme}>
         <Header />
         <CardSearch />
         <CardList />
         <Footer />
-    </ChakraProvider>
-      </main>
+      </ChakraProvider>
+    </main>
   );
 }

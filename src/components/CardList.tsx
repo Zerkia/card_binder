@@ -8,7 +8,7 @@ export default function CardList() {
 
 return (
     <section>
-        { cards && cards.slice(0, 100).map((card) => 
+        { cards && cards.slice(0, 25).map((card) => 
         <Link key={card.id} href={`/card/${card.id}`}>
             <button 
             type="button" 

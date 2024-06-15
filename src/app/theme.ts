@@ -9,10 +9,6 @@ const theme = extendTheme({
       },
     }),
   },
-  fonts: {
-    body: 'Roboto, sans-serif',
-    heading: 'Poppins, sans-serif',
-  },
 });
 
 export default theme;
