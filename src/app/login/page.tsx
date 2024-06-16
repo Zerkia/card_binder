@@ -6,12 +6,12 @@ import { Link, useToast } from '@chakra-ui/react';
 import { supabase } from '@/supabaseClient';
 import { useRouter } from 'next/navigation';
 import AuthForm from '@/components/AuthForm';
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { useUser } from '@/context/userProvider';
 
 
 const LoginPage: NextPage = () => {
     const toast = useToast();
+    const { checkUser } = useUser();
     const router = useRouter();
 
     const handleLogin = async (data: { email: string; password: string }) => {
@@ -20,13 +20,14 @@ const LoginPage: NextPage = () => {
 
         if (!error) {
             toast({
-                title: "Login successful.",
+                title: "Login successful. Please wait.",
                 status: "success",
-                duration: 3000,
+                duration: 2500,
                 isClosable: true,
             });
 
             setTimeout(() => {
+                checkUser();
                 router.push('/');
             }, 3000);
         } else {
@@ -42,12 +43,10 @@ const LoginPage: NextPage = () => {
 
     return(
         <main className="flex min-h-screen flex-col px-12 pt-6">
-            <Header />
             <div className="min-h-screen items-center justify-center">
                 <AuthForm isSignup={false} onSubmit={handleLogin} />
                 <p className='text-center text-md pt-2'>Don&apos;t have a user? <Link href={`/signup`}><span className='text-blue-600 font-bold'>Click here</span></Link> to create one</p>
             </div>
-            <Footer />
         </main>
     )
 }
