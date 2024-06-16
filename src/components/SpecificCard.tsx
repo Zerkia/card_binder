@@ -9,12 +9,6 @@ interface SpecificCardProps {
   id: number;
 }
 
-const roboto = Roboto({
-  weight: ["100", "400", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export default function SpecificCard({ id }: SpecificCardProps) {
   const toast = useToast();
   const { card } = useCard(id);
@@ -26,6 +20,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
   const [notes, setNotes] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
 
+  // Ensure user is logged in, so data can be stored appropriately
   useEffect(() => {
     const fetchUserId = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -43,12 +38,14 @@ export default function SpecificCard({ id }: SpecificCardProps) {
     fetchUserId();
   }, []);
 
+  //Ensures that the default value card set fetched from api can be stored without additional confirmation
   useEffect(() => {
     if (card && card?.card_sets?.length > 0) {
       setCardSet(card.card_sets[0].set_code);
     }
   }, [card]);
 
+  //Form handling
   const handleCardSet = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCardSet(e.target.value);
   }
@@ -73,9 +70,11 @@ export default function SpecificCard({ id }: SpecificCardProps) {
     setNotes(e.target.value);
   };
 
+  //Form submission handling
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
+    //Make sure user is logged in
     if (!userId) {
       toast({
         title: "User not logged in.",
@@ -86,8 +85,51 @@ export default function SpecificCard({ id }: SpecificCardProps) {
       });
       return;
     }
-
+  
     try {
+
+      //Fetches image from api url and stores in supabase bucket to recall later
+      const imageUrl = card!.card_images[0].image_url;
+      console.log(imageUrl);
+
+      //Results in CORS for some reason?
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch the image from the API');
+      }
+      const imageBlob = await response.blob();
+  
+      const fileExt = imageUrl.split('.').pop();
+      const fileName = `${card?.id}.${fileExt}`;
+      const filePath = `public/${fileName}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('card-images')
+        .upload(filePath, imageBlob, {
+          contentType: `image/${fileExt}`,
+        });
+  
+      if (uploadError) {
+        throw uploadError;
+      }
+  
+      const { data: publicUrlData } = supabase.storage
+        .from('card-images')
+        .getPublicUrl(filePath);
+  
+      if (!publicUrlData.publicUrl) {
+        toast({
+          title: "Error in card image download.",
+          description: 'Could not fetch image url',
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+  
+      const publicUrl = publicUrlData.publicUrl;
+  
+      // Save the card data and image URL to the database
       const { data, error } = await supabase
         .from('cards')
         .insert({
@@ -98,32 +140,32 @@ export default function SpecificCard({ id }: SpecificCardProps) {
           condition: condition,
           language: language,
           firstedition: firstEdition,
-          notes: notes
+          notes: notes,
+          image_url: publicUrl,
         });
-
+  
       if (error) {
         throw error;
       }
-
+  
       console.log('Card data saved:', data);
       toast({
-          title: "Card added successfully.",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
+        title: "Card added successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
       });
     } catch (error: any) {
       toast({
-        title: "Login failed.",
+        title: "Error saving card.",
         description: error.message || 'Unknown Error',
         status: "error",
         duration: 9000,
         isClosable: true,
-    });
+      });
     }
   };
-
-
+  
   return (
     <>
       {/* IMAGE */}
@@ -147,7 +189,6 @@ export default function SpecificCard({ id }: SpecificCardProps) {
               className="block w-44 mx-auto bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 mt-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               onChange={handleCardSet}
             >
-
               {card.card_sets.map((cardSet) => {
                 const euroPrice = (parseFloat(cardSet.set_price) * 0.928728).toFixed(2);
                 return (
@@ -211,12 +252,12 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             {/* FIRST EDITION ? */}
             <label htmlFor="firstEdition" className="block mt-4 mx-auto font-bold">First Edition?</label>
             <input
-                type="checkbox"
-                id="firstEdition"
-                name="firstEdition"
-                checked={firstEdition}
-                onChange={handleFirstEditionChange}
-                className="appearance-none w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              type="checkbox"
+              id="firstEdition"
+              name="firstEdition"
+              checked={firstEdition}
+              onChange={handleFirstEditionChange}
+              className="appearance-none w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
 
             {/* PERSONAL NOTES */}
@@ -233,8 +274,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
             {/* SUBMIT BUTTON */}
             <button
               type="submit"
-              className="block mx-auto w-52 h-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
-              "
+              className="block mx-auto w-52 h-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               Submit
             </button>
