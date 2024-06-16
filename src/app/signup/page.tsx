@@ -5,8 +5,6 @@ import { NextPage } from 'next';
 import AuthForm from '@/components/AuthForm';
 import { useToast } from '@chakra-ui/react';
 import { supabase } from '@/supabaseClient';
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 
 const SignupPage: NextPage = () => {
   const toast = useToast();
@@ -51,11 +49,9 @@ const SignupPage: NextPage = () => {
 
   return (
     <main className="flex min-h-screen flex-col px-12 pt-6">
-      <Header />
       <div className="min-h-screen items-center justify-center">
         <AuthForm isSignup={true} onSubmit={handleSignup} />
       </div>
-      <Footer />
     </main>
   );
 };

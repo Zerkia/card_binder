@@ -1,7 +1,8 @@
 export default function Footer() {
     return(
-        <div className='flex justify-center items-end pb-4 pt-2'>
-            &copy; 2024 KEA Development
+        <div className='text-center pb-4 pt-2 italic'>
+            <p>&copy; {new Date().getFullYear()} CardBinder. All rights reserved.</p>
+
         </div>
     )
 }

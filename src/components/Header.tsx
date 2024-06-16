@@ -1,29 +1,20 @@
+"use client";
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/supabaseClient';
-import ContentLoader from 'react-content-loader';
 import Link from "next/link";
+import ContentLoader from 'react-content-loader';
+import { useUser } from '@/context/userProvider';
 
 export default function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const checkUser = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            setIsLoggedIn(!!session);
-        };
-        checkUser();
-    }, []);
+    const { isLoggedIn } = useUser();
     
     return (
-        <nav className="flex justify-between items-center pb-10">
+        <nav className="flex justify-between items-center pb-10 px-12 pt-6">
             <div className="w-1/3 flex justify-start items-center">
                 {isLoggedIn && (
                     <Link href={`/userCollection`}>
                         <button 
                             type="button" 
-                            className="text-white bg-blue-700 hover:bg-blue-600 rounded-lg text-sm py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
-                            w-20">
+                            className="text-white bg-blue-700 hover:bg-blue-600 rounded-lg text-sm py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-20">
                             Collection
                         </button>
                     </Link>
@@ -44,17 +35,15 @@ export default function Header() {
                 </ContentLoader>
             </Link>
             </div>
-            
             <div className="w-1/3 flex justify-end items-center">
                 <Link href={isLoggedIn ? `/logout` : `/login`}>
                     <button 
-                    type="button" 
-                    className="text-white bg-blue-700 hover:bg-blue-600 rounded-lg text-sm py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
-                    w-20">
+                        type="button" 
+                        className="text-white bg-blue-700 hover:bg-blue-600 rounded-lg text-sm py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-20">
                         {isLoggedIn ? 'Logout' : 'Log In'}
                     </button>
                 </Link>
             </div>
         </nav>
-    )
+    );
 }

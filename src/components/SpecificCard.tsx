@@ -13,6 +13,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
   const toast = useToast();
   const { card } = useCard(id);
   const [cardSet, setCardSet] = useState<string | undefined>('');
+  const [cardRarity, setCardRarity] = useState<string | undefined>('');
   const [quantity, setQuantity] = useState(1);
   const [condition, setCondition] = useState("mint");
   const [language, setLanguage] = useState("english");
@@ -20,7 +21,7 @@ export default function SpecificCard({ id }: SpecificCardProps) {
   const [notes, setNotes] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
 
-  // Ensure user is logged in, so data can be stored appropriately
+  // Change this to make use of UserProvider somehow
   useEffect(() => {
     const fetchUserId = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -42,12 +43,19 @@ export default function SpecificCard({ id }: SpecificCardProps) {
   useEffect(() => {
     if (card && card?.card_sets?.length > 0) {
       setCardSet(card.card_sets[0].set_code);
+      setCardRarity(card.card_sets[0].set_rarity_code);
     }
   }, [card]);
 
   //Form handling
   const handleCardSet = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCardSet(e.target.value);
+    const selectedSetCode = e.target.value;
+    const selectedCardSet = card?.card_sets.find((set) => set.set_code === selectedSetCode);
+    
+    if (selectedCardSet) {
+      setCardSet(selectedSetCode);
+      setCardRarity(selectedCardSet.set_rarity_code);
+    }
   }
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,61 +95,20 @@ export default function SpecificCard({ id }: SpecificCardProps) {
     }
   
     try {
-
-      //Fetches image from api url and stores in supabase bucket to recall later
-      const imageUrl = card!.card_images[0].image_url;
-      console.log(imageUrl);
-
-      //Results in CORS for some reason?
-      const response = await fetch(imageUrl);
-      if (!response.ok) {
-        throw new Error('Failed to fetch the image from the API');
-      }
-      const imageBlob = await response.blob();
-  
-      const fileExt = imageUrl.split('.').pop();
-      const fileName = `${card?.id}.${fileExt}`;
-      const filePath = `public/${fileName}`;
-      
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('card-images')
-        .upload(filePath, imageBlob, {
-          contentType: `image/${fileExt}`,
-        });
-  
-      if (uploadError) {
-        throw uploadError;
-      }
-  
-      const { data: publicUrlData } = supabase.storage
-        .from('card-images')
-        .getPublicUrl(filePath);
-  
-      if (!publicUrlData.publicUrl) {
-        toast({
-          title: "Error in card image download.",
-          description: 'Could not fetch image url',
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-  
-      const publicUrl = publicUrlData.publicUrl;
-  
       // Save the card data and image URL to the database
       const { data, error } = await supabase
         .from('cards')
         .insert({
           userid: userId,
           cardid: id,
-          cardsets: cardSet,
+          name: card?.name,
+          cardsets: `${cardSet?.split("-")[0]} ${cardRarity}`,
           quantity: quantity,
           condition: condition,
           language: language,
           firstedition: firstEdition,
           notes: notes,
-          image_url: publicUrl,
+          image_url: card?.id,
         });
   
       if (error) {

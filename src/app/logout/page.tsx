@@ -5,8 +5,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabaseClient';
 import { Center, Spinner, Text } from "@chakra-ui/react";
+import { useUser } from '@/context/userProvider';
 
 export default function Logout() {
+    const { checkUser } = useUser();
     const router = useRouter();
 
     useEffect(() => {
@@ -15,6 +17,8 @@ export default function Logout() {
             router.push('/');
         };
         logoutUser();
+        checkUser();
+        
     }, [router]);
 
     return (
