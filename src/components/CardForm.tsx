@@ -9,12 +9,11 @@ interface CardFormProps {
   uniqueId?: number;
   cardId?: number;
   userId: string | null;
-  onSubmitSuccess: () => void;
   isUpdate: boolean;
   existingCardData?: any;
 }
 
-export default function CardForm({ uniqueId, cardId, userId, onSubmitSuccess, isUpdate, existingCardData }: CardFormProps) {
+export default function CardForm({ uniqueId, cardId, userId, isUpdate, existingCardData }: CardFormProps) {
   const toast = useToast();
   const router = useRouter();
   const [cardSet, setCardSet] = useState<string | undefined>(existingCardData?.cardsets || '');
@@ -126,7 +125,6 @@ export default function CardForm({ uniqueId, cardId, userId, onSubmitSuccess, is
         duration: 3000,
         isClosable: true,
       });
-      onSubmitSuccess();
     } catch (error: any) {
       toast({
         title: "Error saving card.",

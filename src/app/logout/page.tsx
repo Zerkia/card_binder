@@ -23,7 +23,13 @@ export default function Logout() {
 
     return (
         <Center height="100vh" flexDirection="column">
-            <Spinner size="xl" />
+            <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            />
             <Text mt={4}>Logging out...</Text>
         </Center>
     );
