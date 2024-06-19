@@ -75,18 +75,26 @@ export default function UserCardList() {
             <p className="text-center text-lg">
                 Collection total: <span className="font-bold italic">{cards.length}</span>
             </p>
-
-            {cards.slice(0, 25).map((card) => (
-                <Link key={card.id} href={`/card/${card.cardid}`}>
-                    <button
-                        type="button"
-                        className="block text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-full"
+    
+            {cards.slice(0, 25).map((card) => {
+                return (
+                    <Link 
+                        key={card.id} 
+                        href={{
+                            pathname: `/update/${card.id}`
+                        }} 
+                        // as={`/update/${card.image_url}`}
                     >
-                        {card.name}, {card.cardsets.split("-")[0]}
-                    </button>
-                </Link>
-            ))}
-            
+                        <button
+                            type="button"
+                            className="block text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-full"
+                        >
+                            {card.name}, {card.cardsets.split("-")[0]}
+                        </button>
+                    </Link>
+                );
+            })}
         </section>
     );
+    
 }
