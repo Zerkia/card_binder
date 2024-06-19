@@ -29,7 +29,6 @@ export default function UpdateCard({ uniqueId }: UpdateCardProps) {
     };
 
     const fetchCardData = async () => {
-      // console.log(`Fetching card data for uniqueId: ${uniqueId}`);
       const { data, error } = await supabase
         .from('cards')
         .select('*')

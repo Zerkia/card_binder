@@ -20,7 +20,8 @@ const LoginPage: NextPage = () => {
 
         if (!error) {
             toast({
-                title: "Login successful. Please wait.",
+                title: "Login successful.",
+                description: "Please wait.",
                 status: "success",
                 duration: 2500,
                 isClosable: true,
@@ -29,7 +30,7 @@ const LoginPage: NextPage = () => {
             setTimeout(() => {
                 checkUser();
                 router.push('/');
-            }, 3000);
+            }, 2500);
         } else {
             toast({
                 title: "Login failed.",

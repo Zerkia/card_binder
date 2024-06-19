@@ -5,9 +5,11 @@ import { NextPage } from 'next';
 import AuthForm from '@/components/AuthForm';
 import { useToast } from '@chakra-ui/react';
 import { supabase } from '@/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 const SignupPage: NextPage = () => {
   const toast = useToast();
+  const router = useRouter();
 
   const handleSignup = async (data: { email: string; password: string }) => {
     const { email, password } = data;
@@ -30,11 +32,16 @@ const SignupPage: NextPage = () => {
   
       toast({
         title: "Signup successful.",
-        description: "Please click the \"Login\" button in the top right to log in",
+        description: "Please wait.",
         status: "success",
-        duration: 9000,
+        duration: 2500,
         isClosable: true,
       });
+
+      setTimeout(() => {
+        router.push('/login');
+      }, 2500);
+
     } catch (error: any) {
       toast({
         title: "Signup failed.",

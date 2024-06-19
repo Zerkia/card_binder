@@ -65,7 +65,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isSignup, onSubmit }) => {
         </FormControl>
       )}
 
-      <Button type="submit" colorScheme="teal" className="w-full mt-4">
+      <Button type="submit" colorScheme="darkBlue" className="w-full mt-4">
         {isSignup ? 'Sign Up' : 'Log In'}
       </Button>
     </form>

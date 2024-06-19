@@ -84,7 +84,6 @@ export default function UserCardList() {
                         href={{
                             pathname: `/update/${card.id}`
                         }} 
-                        // as={`/update/${card.image_url}`}
                     >
                         <button
                             type="button"
