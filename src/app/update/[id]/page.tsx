@@ -1,8 +1,6 @@
 'use client'
 
 import UpdateCard from "@/components/UpdateCard"
-import GenericRouter from "@/components/genericRouter"
-import { useSearchParams } from "next/navigation"
 
 export default function UpdatePage({params}: { params: {id: number}}) {
     return (

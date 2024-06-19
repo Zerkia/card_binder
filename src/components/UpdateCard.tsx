@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabaseClient";
-import useCard from "@/hooks/useCard";
 import CardForm from "@/components/CardForm";
 
 interface UpdateCardProps {

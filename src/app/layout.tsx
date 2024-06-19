@@ -5,7 +5,7 @@ import './globals.css';
 import { Providers } from "./Providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { UserProvider } from "@/context/userProvider";
+import { UserProvider } from "@/context/UserProvider";
 
 const roboto = Roboto({
   weight: ["100", "400", "700"],

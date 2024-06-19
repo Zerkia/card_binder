@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import ContentLoader from 'react-content-loader';
-import { useUser } from '@/context/userProvider';
+import { useUser } from '@/context/UserProvider';
 
 export default function Header() {
     const { isLoggedIn } = useUser();

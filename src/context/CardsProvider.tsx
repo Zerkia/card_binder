@@ -8,11 +8,13 @@ import { ReactNode, createContext, useContext, useState } from "react"
 interface iCardsContext {
     cardResult: Card[]
     updateInput: (value: string) => void
+    input: string
 }
 
 const CardsContext = createContext<iCardsContext>({
     cardResult: [],
-    updateInput: () => {}
+    updateInput: () => {},
+    input: ""
 });
 
 export function useCardsContext(){
@@ -41,7 +43,7 @@ export default function CardsProvider({children}: {children: ReactNode}) {
     }
 
     return (
-        <CardsContext.Provider value={{cardResult, updateInput}}>
+        <CardsContext.Provider value={{cardResult, updateInput, input}}>
             {children}
         </CardsContext.Provider>
     )

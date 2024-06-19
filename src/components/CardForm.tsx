@@ -5,7 +5,7 @@ import { useToast } from "@chakra-ui/react";
 import useCard from "@/hooks/useCard";
 
 interface CardFormProps {
-  uniqueId: number;
+  uniqueId?: number;
   cardId?: number;
   userId: string | null;
   onSubmitSuccess: () => void;
@@ -30,6 +30,7 @@ export default function CardForm({ uniqueId, cardId, userId, onSubmitSuccess, is
       setCardSet(card.card_sets[0].set_code);
       setCardRarity(card.card_sets[0].set_rarity_code);
     }
+    //insert automation of value of card_set if isUpdate = true
   }, [card, isUpdate]);
 
   const handleCardSet = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -89,7 +90,6 @@ export default function CardForm({ uniqueId, cardId, userId, onSubmitSuccess, is
             language,
             firstedition: firstEdition,
             notes,
-            image_url: card?.id,
           })
           .eq('id', uniqueId)
           .eq('userid', userId);

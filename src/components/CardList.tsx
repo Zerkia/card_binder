@@ -1,9 +1,7 @@
 import { useCardsContext } from "@/context/CardsProvider";
-import useCards from "@/hooks/useCards";
 import Link from "next/link";
 
 export default function CardList() {
-    // const { cards } = useCards()
     const { cardResult : cards } = useCardsContext()
 
 return (

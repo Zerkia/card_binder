@@ -36,7 +36,6 @@ export default function SpecificCard({ id }: SpecificCardProps) {
     <>
       {card ? (
         <CardForm
-          card={card}
           cardId={id}
           userId={userId}
           onSubmitSuccess={handleFormSubmitSuccess}

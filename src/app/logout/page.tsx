@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabaseClient';
 import { Center, Spinner, Text } from "@chakra-ui/react";
-import { useUser } from '@/context/userProvider';
+import { useUser } from '@/context/UserProvider';
 
 export default function Logout() {
     const { checkUser } = useUser();

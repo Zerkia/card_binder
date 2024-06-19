@@ -6,7 +6,7 @@ import { Link, useToast } from '@chakra-ui/react';
 import { supabase } from '@/supabaseClient';
 import { useRouter } from 'next/navigation';
 import AuthForm from '@/components/AuthForm';
-import { useUser } from '@/context/userProvider';
+import { useUser } from '@/context/UserProvider';
 
 
 const LoginPage: NextPage = () => {

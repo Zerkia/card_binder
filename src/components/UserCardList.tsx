@@ -49,7 +49,8 @@ export default function UserCardList() {
                 const { data: cardsData, error } = await supabase
                     .from('cards')
                     .select()
-                    .eq('userid', userId);
+                    .eq('userid', userId)
+                    .order('name');
 
                 if (error) {
                     throw error;
