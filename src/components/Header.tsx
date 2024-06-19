@@ -3,6 +3,8 @@
 import Link from "next/link";
 import ContentLoader from 'react-content-loader';
 import { useUser } from '@/context/UserProvider';
+import Image from "next/image";
+import logo from "~/logo.svg";
 
 export default function Header() {
     const { isLoggedIn } = useUser();
@@ -22,17 +24,7 @@ export default function Header() {
             </div>
             <div className="w-1/3 flex justify-center items-center">
             <Link href={`/`}>
-                <ContentLoader 
-                    speed={2}
-                    width={80}
-                    height={80}
-                    viewBox="0 0 100 100"
-                    backgroundColor="#f3f3f3"
-                    foregroundColor="#ecebeb"
-                    uniqueKey='logo'
-                >
-                    <rect x="0" y="0" rx="5" ry="5" width="100" height="100" />
-                </ContentLoader>
+                <Image src={logo} alt="logo" height={80} width={80}/>
             </Link>
             </div>
             <div className="w-1/3 flex justify-end items-center">
